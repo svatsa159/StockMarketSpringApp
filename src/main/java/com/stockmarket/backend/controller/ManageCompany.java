@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stockmarket.backend.dto.AddCompanyRequestWrapper;
+import com.stockmarket.backend.dto.AddCompanyWrapper;
 import com.stockmarket.backend.dto.AddCompanyToStockExchange;
 import com.stockmarket.backend.exception.EntityExists;
 import com.stockmarket.backend.exception.EntityNotFound;
-import com.stockmarket.backend.service.CompanyServiceImpl;
+import com.stockmarket.backend.service.CompanyService;
 
 @RestController
 @RequestMapping("/manage_company")
 public class ManageCompany {
 	@Autowired
-	CompanyServiceImpl companyServiceImpl;
+	CompanyService companyService;
 
 	@PostMapping("/add/")
-	public ResponseEntity<Object> addCompany(@RequestBody AddCompanyRequestWrapper manageCompanyRequestWrapper) {
+	public ResponseEntity<Object> addCompany(@RequestBody AddCompanyWrapper manageCompanyRequestWrapper) {
 
 		try {
-			companyServiceImpl.AddCompanywithSector(manageCompanyRequestWrapper.company,
+			companyService.AddCompanywithSector(manageCompanyRequestWrapper.company,
 					manageCompanyRequestWrapper.sector_id);
 		} catch (EntityExists e) {
 			return new ResponseEntity<>("Entity Exists", HttpStatus.BAD_REQUEST);
@@ -41,7 +41,7 @@ public class ManageCompany {
 	public ResponseEntity<Object> addCompanyToStockExchange(
 			@RequestBody AddCompanyToStockExchange addCompanyToStockExchange) {
 		try {
-			companyServiceImpl.AddCompanyToStockExchange(addCompanyToStockExchange.company_id,
+			companyService.AddCompanyToStockExchange(addCompanyToStockExchange.company_id,
 					addCompanyToStockExchange.stock_exchange_list);
 			return ResponseEntity.ok(null);
 		} catch (EntityNotFound e) {
@@ -54,7 +54,7 @@ public class ManageCompany {
 	public ResponseEntity<Object> getCompanyById(@PathVariable("id") long id) {
 		try {
 
-			return ResponseEntity.ok(companyServiceImpl.getCompanyById(id));
+			return ResponseEntity.ok(companyService.getCompanyById(id));
 		} catch (EntityNotFound e) {
 			return new ResponseEntity<>("Entity Not Found", HttpStatus.BAD_REQUEST);
 		}

@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stockmarket.backend.entity.StockExchange;
 import com.stockmarket.backend.exception.EntityExists;
 import com.stockmarket.backend.exception.EntityNotFound;
-import com.stockmarket.backend.service.StockExchangeServiceImpl;
+import com.stockmarket.backend.service.StockExchangeService;
 
 @RestController
 @RequestMapping("/manage_stock_exchanges")
 public class ManageStockExchange {
 
 	@Autowired
-	StockExchangeServiceImpl stockExchangeServiceImpl;
+	StockExchangeService stockExchangeService;
 
 	@GetMapping(path = "/list")
 	public List<StockExchange> getAllExchanges() {
-		return stockExchangeServiceImpl.getAllStockExchanges();
+		return stockExchangeService.getAllStockExchanges();
 	}
 
 	@PostMapping(consumes = "application/json", path = "/add")
 	public ResponseEntity<Object> addExchange(@RequestBody StockExchange exchange) {
 		try {
-			stockExchangeServiceImpl.addStockExchange(exchange);
+			stockExchangeService.addStockExchange(exchange);
 		} catch (EntityExists e) {
 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,7 +43,7 @@ public class ManageStockExchange {
 	@DeleteMapping(consumes = "text/plain", path = "/remove")
 	public ResponseEntity<Object> removeExchange(@RequestBody String name) {
 		try {
-			stockExchangeServiceImpl.removeStockExchange(name);
+			stockExchangeService.removeStockExchange(name);
 		} catch (EntityNotFound e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
