@@ -13,4 +13,6 @@ public interface CompanyService {
 	public void AddCompanyToStockExchange(long company_id, List<String> stock_exchange_list) throws EntityNotFound;
 
 	CompanyDTO getCompanyById(long company_id) throws EntityNotFound;
+
+	public List<String> getCompaniesByPattern(String pattern);
 }

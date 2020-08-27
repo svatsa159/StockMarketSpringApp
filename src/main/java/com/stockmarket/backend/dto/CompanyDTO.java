@@ -20,5 +20,4 @@ public class CompanyDTO {
 	private List<String> stock_exchanges = new ArrayList<String>();
 	private Sector sector;
 	private String write_up;
-
 }

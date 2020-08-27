@@ -3,6 +3,7 @@ package com.stockmarket.backend.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,17 +35,6 @@ public class Company {
 	private float turnover;
 	private String ceo;
 
-	public Company(String company_name, float turnover, String ceo, String board_of_directors, String write_up) {
-		super();
-		this.company_name = company_name;
-		this.turnover = turnover;
-		this.ceo = ceo;
-		this.board_of_directors = board_of_directors;
-
-		this.write_up = write_up;
-
-	}
-
 	private String board_of_directors;
 
 	@ElementCollection
@@ -51,5 +44,9 @@ public class Company {
 	@JoinColumn(name = "company_id")
 	private Sector sector;
 	private String write_up;
+
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	private List<IPO> ipos;
 
 }

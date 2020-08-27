@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stockmarket.backend.dto.AddCompanyWrapper;
 import com.stockmarket.backend.dto.AddCompanyToStockExchange;
+import com.stockmarket.backend.dto.AddCompanyWrapper;
 import com.stockmarket.backend.exception.EntityExists;
 import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.CompanyService;
@@ -58,6 +59,11 @@ public class ManageCompany {
 		} catch (EntityNotFound e) {
 			return new ResponseEntity<>("Entity Not Found", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PostMapping("/get_by_pattern")
+	public ResponseEntity<Object> getCompaniesByPattern(@RequestParam String pattern) {
+		return new ResponseEntity<>(companyService.getCompaniesByPattern(pattern), HttpStatus.OK);
 	}
 
 }

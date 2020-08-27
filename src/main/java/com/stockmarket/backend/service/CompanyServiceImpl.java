@@ -84,4 +84,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 	}
 
+	@Override
+	public List<String> getCompaniesByPattern(String pattern) {
+
+		return companyRepository.findUsersWithPartOfName(pattern);
+	}
+
 }
