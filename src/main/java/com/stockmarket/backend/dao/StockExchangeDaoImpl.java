@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.stockmarket.backend.entity.Company;
 import com.stockmarket.backend.entity.StockExchange;
 import com.stockmarket.backend.exception.EntityExists;
 import com.stockmarket.backend.exception.EntityNotFound;
@@ -47,6 +48,12 @@ public class StockExchangeDaoImpl implements StockExchangeDao {
 		} else {
 			return exchange;
 		}
+	}
+
+	public List<Company> getCompaniesByStockExchange(String name) throws EntityNotFound {
+		StockExchange exchange = getStockExchangeByName(name);
+		return exchange.getCompany();
+
 	}
 
 }
