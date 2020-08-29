@@ -54,6 +54,9 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 	public boolean removeStockExchange(String name) throws EntityNotFound {
 
 		StockExchange exchange = stockExchangeRepository.getStockExchangeByName(name);
+		if (exchange == null) {
+			throw new EntityNotFound("Exchange not found");
+		}
 		stockExchangeRepository.delete(exchange);
 
 		return true;
@@ -61,8 +64,11 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 
 	@Override
 	@Transactional
-	public List<CompanyDTO> getCompaniesByStockExchange(String name) {
+	public List<CompanyDTO> getCompaniesByStockExchange(String name) throws EntityNotFound {
 		StockExchange exchange = stockExchangeRepository.getStockExchangeByName(name);
+		if (exchange == null) {
+			throw new EntityNotFound("Exchange not found");
+		}
 		return exchange.getCompany_id().stream().map(comp_id -> {
 			return mapper.map(companyRepository.findById(comp_id).orElse(null), CompanyDTO.class);
 		}).collect(Collectors.toList());

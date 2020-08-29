@@ -27,7 +27,7 @@ public class ManageIPO {
 		try {
 			return new ResponseEntity<>(ipoService.addIPO(ipoWrapper), HttpStatus.ACCEPTED);
 		} catch (EntityNotFound e) {
-			return new ResponseEntity<>("Entity not found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch (DateFormatError e) {
 			return new ResponseEntity<>("Date Format Incorrect", HttpStatus.BAD_REQUEST);
 		}
@@ -39,7 +39,7 @@ public class ManageIPO {
 		try {
 			return new ResponseEntity<>(ipoService.getIPO_OfCompany(company_id), HttpStatus.ACCEPTED);
 		} catch (EntityNotFound e) {
-			return new ResponseEntity<>("Entity not found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
 	}

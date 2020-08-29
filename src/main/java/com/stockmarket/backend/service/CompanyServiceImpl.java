@@ -32,16 +32,16 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	@Transactional
-	public boolean AddCompanywithSector(Company company, long sector_id) throws EntityExists, EntityNotFound {
-//		companyDaoImpl.AddCompany(company);
+	public Company AddCompanywithSector(Company company, long sector_id) throws EntityExists, EntityNotFound {
 		Sector sector = sectorService.getSectorById(sector_id);
+		List<Company> companies = sector.getCompany_list();
+		companies.add(company);
+		sector.setCompany_list(companies);
 		company.setSector(sector);
 		try {
-			companyRepository.save(company);
-			return true;
-		} catch (
+			return companyRepository.save(company);
 
-		DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new EntityExists();
 		}
 
@@ -52,13 +52,13 @@ public class CompanyServiceImpl implements CompanyService {
 	public void AddCompanyToStockExchange(long company_id, List<String> stock_exchange_list) throws EntityNotFound {
 		Company company = (Company) companyRepository.findById(company_id).orElse(null);
 		if (company == null) {
-			throw new EntityNotFound();
+			throw new EntityNotFound("Company not found");
 		}
 		List<String> exchangeList = company.getStock_exchanges();
 		for (String ID : stock_exchange_list) {
 			StockExchange exchange = stockExchangeRepository.getStockExchangeByName(ID);
 			if (exchange == null) {
-				throw new EntityNotFound();
+				throw new EntityNotFound("Exchange not found");
 			}
 			exchangeList.add(exchange.getName());
 			List<Long> company_ids = exchange.getCompany_id();
@@ -77,7 +77,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyDTO getCompanyById(long company_id) throws EntityNotFound {
 		Company company = (Company) companyRepository.findById(company_id).orElse(null);
 		if (company == null) {
-			throw new EntityNotFound();
+			throw new EntityNotFound("Company not found");
 		} else {
 			return mapper.map(company, CompanyDTO.class);
 		}
@@ -86,7 +86,6 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<String> getCompaniesByPattern(String pattern) {
-
 		return companyRepository.findUsersWithPartOfName(pattern);
 	}
 

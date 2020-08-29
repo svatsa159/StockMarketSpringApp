@@ -39,11 +39,11 @@ public class IPOServiceImpl implements IPOService {
 		Date date;
 		StockExchange exchange = stockExchangeRepository.getStockExchangeByName(ipoWrapper.getStockExchangeName());
 		if (exchange == null) {
-			throw new EntityNotFound();
+			throw new EntityNotFound("Exchange not found");
 		}
 		Company company = companyRepository.findById(ipoWrapper.getCompany_id()).orElse(null);
 		if (company == null) {
-			throw new EntityNotFound();
+			throw new EntityNotFound("Company not found");
 		}
 		try {
 			date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(ipoWrapper.getDate_string());
@@ -62,7 +62,7 @@ public class IPOServiceImpl implements IPOService {
 	public List<IPO_DTO> getIPO_OfCompany(Long company_id) throws EntityNotFound {
 		Company company = companyRepository.findById(company_id).orElse(null);
 		if (company == null) {
-			throw new EntityNotFound();
+			throw new EntityNotFound("Company not found");
 		}
 		return ipoRepository.getIPOByCompanyId(company_id).stream().map(ipo -> mapper.map(ipo, IPO_DTO.class))
 				.collect(Collectors.toList());

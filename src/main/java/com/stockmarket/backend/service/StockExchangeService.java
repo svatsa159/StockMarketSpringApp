@@ -14,5 +14,5 @@ public interface StockExchangeService {
 
 	public boolean removeStockExchange(String name) throws EntityNotFound;
 
-	List<CompanyDTO> getCompaniesByStockExchange(String name);
+	List<CompanyDTO> getCompaniesByStockExchange(String name) throws EntityNotFound;
 }

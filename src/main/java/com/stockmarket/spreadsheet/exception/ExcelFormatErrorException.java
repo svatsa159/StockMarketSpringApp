@@ -1,6 +1,6 @@
-package com.stockmarket.backend.exception;
+package com.stockmarket.spreadsheet.exception;
 
-public class EntityNotFound extends Exception {
+public class ExcelFormatErrorException extends Exception {
 
 	/**
 	 *
@@ -8,8 +8,8 @@ public class EntityNotFound extends Exception {
 	private static final long serialVersionUID = 1L;
 	private String message;
 
-	public EntityNotFound(String x) {
-		super();
+	public ExcelFormatErrorException(String x) {
+
 		this.message = x;
 	}
 

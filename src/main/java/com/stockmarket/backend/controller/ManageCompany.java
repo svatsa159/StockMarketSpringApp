@@ -1,5 +1,6 @@
 package com.stockmarket.backend.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stockmarket.backend.dto.AddCompanyToStockExchange;
 import com.stockmarket.backend.dto.AddCompanyWrapper;
+import com.stockmarket.backend.dto.CompanyDTO;
 import com.stockmarket.backend.exception.EntityExists;
 import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.CompanyService;
@@ -22,20 +24,23 @@ import com.stockmarket.backend.service.CompanyService;
 public class ManageCompany {
 	@Autowired
 	CompanyService companyService;
+	@Autowired
+	ModelMapper mapper;
 
 	@PostMapping("/add/")
 	public ResponseEntity<Object> addCompany(@RequestBody AddCompanyWrapper manageCompanyRequestWrapper) {
 
 		try {
-			companyService.AddCompanywithSector(manageCompanyRequestWrapper.company,
-					manageCompanyRequestWrapper.sector_id);
+			return new ResponseEntity<>(
+					mapper.map(companyService.AddCompanywithSector(manageCompanyRequestWrapper.company,
+							manageCompanyRequestWrapper.sector_id), CompanyDTO.class),
+					HttpStatus.ACCEPTED);
 		} catch (EntityExists e) {
-			return new ResponseEntity<>("Entity Exists", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Company Exists", HttpStatus.BAD_REQUEST);
 		} catch (EntityNotFound e) {
-			return new ResponseEntity<>("Entity Not Found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseEntity.ok(null);
 	}
 
 	@PostMapping("/add_to_stock_exchange")
@@ -46,7 +51,7 @@ public class ManageCompany {
 					addCompanyToStockExchange.stock_exchange_list);
 			return ResponseEntity.ok(null);
 		} catch (EntityNotFound e) {
-			return new ResponseEntity<>("Entity Not Found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -57,7 +62,7 @@ public class ManageCompany {
 
 			return ResponseEntity.ok(companyService.getCompanyById(id));
 		} catch (EntityNotFound e) {
-			return new ResponseEntity<>("Entity Not Found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
