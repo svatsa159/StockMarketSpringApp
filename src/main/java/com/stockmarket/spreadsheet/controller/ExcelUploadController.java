@@ -14,7 +14,7 @@ import com.stockmarket.spreadsheet.helper.ExcelUploadHelper;
 import com.stockmarket.spreadsheet.service.ExcelUploadService;
 
 @RestController
-@RequestMapping("/excel_upload")
+@RequestMapping("/api/excel_upload")
 public class ExcelUploadController {
 
 	@Autowired

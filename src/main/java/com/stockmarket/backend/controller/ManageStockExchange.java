@@ -17,7 +17,7 @@ import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.StockExchangeService;
 
 @RestController
-@RequestMapping("/manage_stock_exchanges")
+@RequestMapping("/api/manage_stock_exchanges")
 public class ManageStockExchange {
 
 	@Autowired

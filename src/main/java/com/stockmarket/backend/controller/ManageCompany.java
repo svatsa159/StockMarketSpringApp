@@ -20,7 +20,7 @@ import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.CompanyService;
 
 @RestController
-@RequestMapping("/manage_company")
+@RequestMapping("api/manage_company")
 public class ManageCompany {
 	@Autowired
 	CompanyService companyService;

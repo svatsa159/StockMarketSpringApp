@@ -18,7 +18,7 @@ import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.SectorService;
 
 @RestController
-@RequestMapping("/manage_sector")
+@RequestMapping("/api/manage_sector")
 public class ManageSector {
 	@Autowired
 	private SectorService sectorService;

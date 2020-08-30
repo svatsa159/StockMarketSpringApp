@@ -16,7 +16,7 @@ import com.stockmarket.backend.exception.EntityNotFound;
 import com.stockmarket.backend.service.IPOService;
 
 @RestController
-@RequestMapping("/manage_ipo")
+@RequestMapping("/api/manage_ipo")
 public class ManageIPO {
 
 	@Autowired
