@@ -7,3 +7,5 @@ Links :
 Swagger : http://localhost:8080/swagger-ui.html
 
 Postman Collection : https://app.getpostman.com/run-collection/4ef4ad38427ebbc4c10e
+
+Frontend Angular : https://github.com/svatsa159/StockMarketAngularClient
